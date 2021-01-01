@@ -12,18 +12,11 @@ create table users(
 	password_user nvarchar(20) not null,
 	id_department varchar(10)
 )
-select * from users
-
-
-
 go
 create table subjects(
 	id_subject varchar(8) constraint pk_subjects primary key,
 	name_subject nvarchar(30) not null
 )
-
-
-select * from admin_account
 go
 create table scores
 (
@@ -32,7 +25,6 @@ create table scores
 	socre float,
 	constraint pk_scores primary key (id_user,id_subject)
 )
-
 go
 create table questions
 (
@@ -47,9 +39,6 @@ create table questions
 	level_question tinyint
 	constraint pk_questions primary key (id_subject,id_question)
 )
-
-
-
 go
 create table admin_account
 (
@@ -67,19 +56,13 @@ create table class
 	classname nvarchar(30),
 	constraint PK_classname primary key (id_class,id_department)
 )
-
-
 go
 create table department
 (
 	id_department varchar(10) constraint PL_department primary key,
 	department_name nvarchar(30)
 )
-
-
 go
-
-
 create table test
 (
 	id_subject varchar(8),
@@ -92,9 +75,8 @@ create table test
 	do bit default 0,
 	constraint PK_test primary key (id_subject,id_department)
 )
-select * from test
-delete from test where id_subject='CSDL'
-insert into test(id_subject,id_department,number_question,easy_question,normal_question,hard_question,time_test,do) values('CSDL','CNTT',40,15,15,10,60,0)
+
+-- add dependency
 alter table scores add constraint fk_scores_users
 foreign key (id_user) references users(id_user)
 
@@ -105,11 +87,14 @@ alter table questions add constraint fk_questions_subject
 foreign key (id_subject) references subjects(id_subject)
 
 alter table users add constraint FK_user_class foreign key (id_class,id_department) references class (id_class,id_department)
+
 alter table class add constraint FK_class_department foreign key (id_department) references department(id_department)
+
 alter table test add constraint FK_test_subject foreign key (id_subject) references subjects(id_subject)
+
 alter table test add constraint FK_test_department foreign key (id_department) references department(id_department)
 
-
+-- create insert function
 
 create procedure importuser @id_user varchar(8),@name_user nvarchar(30),@birthday date,@id_class varchar(5),@password_user nvarchar(20),@id_department varchar(10)
 as
@@ -147,7 +132,7 @@ begin
 end
 go
 
-
+-- create view
 create view test_full_info
 as
 select ts.id_subject,ts.id_department,sb.name_subject,dp.department_name,ts.number_question,ts.easy_question,ts.normal_question,ts.hard_question,ts.time_test,ts.do from test ts,subjects sb,department dp
