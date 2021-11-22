@@ -1,0 +1,13 @@
+server\model\Test.class
+server\model\Subject.class
+server\model\ClassName.class
+server\model\Question.class
+server\model\Score.class
+server\Controller\AdminController.class
+server\model\UserAdmin.class
+server\Controller\UserController.class
+server\application\serverApplication.class
+Tool\Tool.class
+Tool\DBConfig.class
+server\model\User.class
+server\model\Department.class
